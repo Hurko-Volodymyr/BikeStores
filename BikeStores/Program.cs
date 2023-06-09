@@ -1,4 +1,5 @@
-﻿using BikeStores.Services;
+﻿using BikeStores.Models;
+using BikeStores.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 
@@ -18,11 +19,21 @@ var options = optionsBuilder
 using (var db = new ApplicationContext(options))
 {
     var orderService = new OrderService(db);
-    //var orders = db.Orders.ToList();
+    var customers = db.Customers.ToList();
 
     var order = await orderService.GetOrderByIdAsync(1);
-    //        foreach (var order in orders)
     
-        Console.WriteLine($"Order ID: {order.OrderId}, Order Status: {order.OrderStatus}, Order Date: {order.OrderDate}");
     
+        Console.WriteLine($"Order ID: {order.OrderId}, Order Status: {order.OrderStatus}, {order.Customer.FirstName}");
+
+    //foreach (var customer in customers)
+    //{
+    //    if (customer != null)
+    //    {
+    //        Console.WriteLine($"Customer ID: {customer.CustomerId}");
+    //        Console.WriteLine($"First Name: {customer.FirstName}");
+    //        Console.WriteLine($"Last Name: {customer.LastName}");
+    //    }
+    //}
 }
+//Customer: { order.Customer.FirstName}

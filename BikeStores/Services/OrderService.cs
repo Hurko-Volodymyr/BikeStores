@@ -1,4 +1,5 @@
-﻿using BikeStores.Services.Abstractions;
+﻿using BikeStores.Models;
+using BikeStores.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -25,8 +26,14 @@ namespace BikeStores.Services
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
-            return await _dbContext.Orders.FirstOrDefaultAsync(f => f.OrderId == orderId);
+            var order = await _dbContext.Orders
+                .Include(o => o.Customer) 
+                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+
+            return order;
         }
+
+
 
         public Task<List<Order>> GetOrdersAsync(int page, int pageSize)
         {
