@@ -20,7 +20,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\BikeStores\BikeStores.csproj" />
+    <ProjectReference Include="..\BikeStores.Host\BikeStores.csproj" />
   </ItemGroup>
 
 </Project>

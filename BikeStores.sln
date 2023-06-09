@@ -3,9 +3,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33712.159
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeStores", "BikeStores\BikeStores.csproj", "{25EB5D38-7227-4612-B24B-7E8435DD4F6A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeStoresTests", "BikeStoresTests\BikeStoresTests.csproj", "{EA0CB71A-4269-4ABB-A368-845107102F5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BikeStoresTests", "BikeStoresTests\BikeStoresTests.csproj", "{EA0CB71A-4269-4ABB-A368-845107102F5F}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{48D5F281-0C4B-496D-9755-92E470CFC45A}"
+	ProjectSection(SolutionItems) = preProject
+		appsettings.json = appsettings.json
+		docker-compose.yml = docker-compose.yml
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BikeStores", "BikeStores.Host\BikeStores.csproj", "{873E618D-FE86-4774-96FA-784FD288293F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -13,14 +19,14 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{25EB5D38-7227-4612-B24B-7E8435DD4F6A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{25EB5D38-7227-4612-B24B-7E8435DD4F6A}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{25EB5D38-7227-4612-B24B-7E8435DD4F6A}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{25EB5D38-7227-4612-B24B-7E8435DD4F6A}.Release|Any CPU.Build.0 = Release|Any CPU
 		{EA0CB71A-4269-4ABB-A368-845107102F5F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{EA0CB71A-4269-4ABB-A368-845107102F5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{EA0CB71A-4269-4ABB-A368-845107102F5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{EA0CB71A-4269-4ABB-A368-845107102F5F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{873E618D-FE86-4774-96FA-784FD288293F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{873E618D-FE86-4774-96FA-784FD288293F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{873E618D-FE86-4774-96FA-784FD288293F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{873E618D-FE86-4774-96FA-784FD288293F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
