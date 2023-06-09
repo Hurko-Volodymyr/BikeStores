@@ -1,15 +1,11 @@
 ﻿using BikeStores.Models;
+using BikeStores.Models.Enums;
 using BikeStores.Services.Abstractions;
 using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace BikeStores.Services
 {
-    internal class OrderService : IOrderService
+    public class OrderService : IOrderService
     {
 
         private readonly ApplicationContext _dbContext;
@@ -19,10 +15,35 @@ namespace BikeStores.Services
             _dbContext = dbContext;
         }
 
-        public Task<int> CreateOrderAsync()
-        {
-            throw new NotImplementedException();
-        }
+public async Task<int> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate,
+    DateTime? shippedDate, int storeId, int staffId, List<OrderItem> orderItems)
+{
+    if (!Enum.IsDefined(typeof(OrderStatusEnum), orderStatus))
+    {
+        throw new ArgumentException("Invalid OrderStatusEnum value.");
+    }
+
+    var order = new Order
+    {
+        CustomerId = customerId,
+        OrderStatus = (byte)orderStatus,
+        OrderDate = orderDate,
+        RequiredDate = requiredDate,
+        ShippedDate = shippedDate,
+        StoreId = storeId,
+        StaffId = staffId,
+        OrderItems = orderItems
+    };
+
+    _dbContext.Orders.Add(order);
+    await _dbContext.SaveChangesAsync();
+
+    return order.OrderId;
+}
+
+
+
+
 
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
@@ -36,18 +57,42 @@ namespace BikeStores.Services
 
             return order;
         }
-
-
-
-
-        public Task<List<Order>> GetOrdersAsync(int page, int pageSize)
+        public async Task<List<Order>> GetOrdersAsync(int page, int pageSize)
         {
-            throw new NotImplementedException();
+            var orders = await _dbContext.Orders
+                .Include(i => i.Customer)
+                .Include(i => i.Store)
+                .Include(i => i.Staff)
+                .Include(i => i.OrderItems)
+                    .ThenInclude(ti => ti.Product)
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return orders;
         }
 
-        public Task CancelOrderAsync(int orderId)
+        public async Task<bool> CancelOrderAsync(int orderId)
         {
-            throw new NotImplementedException();
+            var order = await _dbContext.Orders.FindAsync(orderId);
+            var isCanceled = false;
+
+            if (order != null)
+            {
+                if (Enum.IsDefined(typeof(OrderStatusEnum), OrderStatusEnum.Rejected))
+                {
+                    order.OrderStatus = (byte)OrderStatusEnum.Rejected;
+                    await _dbContext.SaveChangesAsync();
+                    isCanceled = true;
+                }
+                else
+                {
+                    throw new ArgumentException("Invalid OrderStatusEnum value.");
+                }
+            }
+
+            return isCanceled;
         }
+
     }
 }

@@ -1,4 +1,4 @@
-﻿using BikeStores.Models;
+﻿using BikeStores;
 using BikeStores.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -19,12 +19,15 @@ var options = optionsBuilder
 using (var db = new ApplicationContext(options))
 {
     var orderService = new OrderService(db);
-    var customers = db.Customers.ToList();
 
-    var order = await orderService.GetOrderByIdAsync(1);
-    
-    
+     var order = await orderService.GetOrderByIdAsync(1);
+
+    //var orders = await orderService.GetOrdersAsync(1, 4);
+
+    //foreach (var order in orders)
+
+    //{
         Console.WriteLine($"Order ID: {order.OrderId}, {order.Customer.FirstName}, {order.Store.StoreName}, {order.Staff.FirstName}, Order items product name: {order.OrderItems.First().Product.ProductName}");
-
+    //}
 
 }

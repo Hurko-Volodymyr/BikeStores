@@ -1,5 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStores.Models
@@ -14,21 +13,21 @@ namespace BikeStores.Models
         [Required]
         [Column("first_name")]
         [StringLength(50)]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = string.Empty!;
 
         [Required]
         [Column("last_name")]
         [StringLength(50)]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = string.Empty!;
 
         [Required]
         [Column("email")]
         [StringLength(255)]
-        public string Email { get; set; }
+        public string Email { get; set; } = string.Empty!;
 
         [Column("phone")]
         [StringLength(25)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [Required]
         [Column("active")]

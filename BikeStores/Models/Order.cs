@@ -1,5 +1,4 @@
-﻿using System;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 namespace BikeStores.Models
 {
@@ -43,7 +42,7 @@ namespace BikeStores.Models
 
         public Staff Staff { get; internal set; }
 
-        public List<OrderItem> OrderItems { get; set; }
+         public List<OrderItem> OrderItems { get; set; }
 
     }
 }

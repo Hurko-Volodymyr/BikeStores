@@ -17,26 +17,26 @@ namespace BikeStores.Models
 
         [Column("phone")]
         [StringLength(25)]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
         [Column("email")]
         [StringLength(255)]
-        public string Email { get; set; }
+        public string? Email { get; set; }
 
         [Column("street")]
         [StringLength(255)]
-        public string Street { get; set; }
+        public string? Street { get; set; }
 
         [Column("city")]
         [StringLength(255)]
-        public string City { get; set; }
+        public string? City { get; set; }
 
         [Column("state")]
         [StringLength(10)]
-        public string State { get; set; }
+        public string? State { get; set; }
 
         [Column("zip_code")]
         [StringLength(5)]
-        public string ZipCode { get; set; }
+        public string? ZipCode { get; set; }
     }
 }

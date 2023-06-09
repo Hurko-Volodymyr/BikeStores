@@ -1,17 +1,14 @@
 ﻿using BikeStores.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using BikeStores.Models.Enums;
 
 namespace BikeStores.Services.Abstractions
 {
-    internal interface IOrderService
+    public interface IOrderService
     {
-        Task<int> CreateOrderAsync();
+        Task<int> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate,
+           DateTime? shippedDate, int storeId, int staffId, List<OrderItem> orderItems);
         Task<Order> GetOrderByIdAsync(int orderId);
         Task<List<Order>> GetOrdersAsync(int page, int pageSize);
-        Task CancelOrderAsync(int orderId);
+        Task<bool> CancelOrderAsync(int orderId);
     }
 }
