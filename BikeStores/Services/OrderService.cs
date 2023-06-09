@@ -27,11 +27,16 @@ namespace BikeStores.Services
         public async Task<Order> GetOrderByIdAsync(int orderId)
         {
             var order = await _dbContext.Orders
-                .Include(o => o.Customer) 
-                .FirstOrDefaultAsync(o => o.OrderId == orderId);
+                .Include(i => i.Customer)
+                .Include(i => i.Store)
+                .Include(i => i.Staff)
+                .Include(i => i.OrderItems)
+                    .ThenInclude(ti => ti.Product)
+                .FirstOrDefaultAsync(f => f.OrderId == orderId);
 
             return order;
         }
+
 
 
 

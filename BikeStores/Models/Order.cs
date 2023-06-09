@@ -35,9 +35,15 @@ namespace BikeStores.Models
         [Column("store_id")]
         public int StoreId { get; set; }
 
+        public Store Store { get; internal set; }   
+
         [ForeignKey("sales.staffs")]
         [Column("staff_id")]
         public int StaffId { get; set; }
+
+        public Staff Staff { get; internal set; }
+
+        public List<OrderItem> OrderItems { get; set; }
 
     }
 }

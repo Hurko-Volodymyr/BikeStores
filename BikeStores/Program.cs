@@ -24,16 +24,7 @@ using (var db = new ApplicationContext(options))
     var order = await orderService.GetOrderByIdAsync(1);
     
     
-        Console.WriteLine($"Order ID: {order.OrderId}, Order Status: {order.OrderStatus}, {order.Customer.FirstName}");
+        Console.WriteLine($"Order ID: {order.OrderId}, {order.Customer.FirstName}, {order.Store.StoreName}, {order.Staff.FirstName}, Order items product name: {order.OrderItems.First().Product.ProductName}");
 
-    //foreach (var customer in customers)
-    //{
-    //    if (customer != null)
-    //    {
-    //        Console.WriteLine($"Customer ID: {customer.CustomerId}");
-    //        Console.WriteLine($"First Name: {customer.FirstName}");
-    //        Console.WriteLine($"Last Name: {customer.LastName}");
-    //    }
-    //}
+
 }
-//Customer: { order.Customer.FirstName}
