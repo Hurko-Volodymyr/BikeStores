@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
 using Newtonsoft.Json;
+
 namespace BikeStores.Models
 {
     [Table("orders", Schema = "sales")]
@@ -12,6 +13,7 @@ namespace BikeStores.Models
         [ForeignKey("sales.customers")]
         [Column("customer_id")]
         public int CustomerId { get; set; }
+
         public Customer Customer { get; internal set; } = null!;
 
         [Required]

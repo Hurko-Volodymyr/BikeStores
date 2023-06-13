@@ -4,6 +4,7 @@
         where T : DbContext
     {
         T DbContext { get; }
+
         Task<IDbContextTransaction> BeginTransactionAsync(CancellationToken cancellationToken);
     }
 }

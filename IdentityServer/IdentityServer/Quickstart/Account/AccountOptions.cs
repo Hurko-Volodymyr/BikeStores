@@ -6,10 +6,13 @@ namespace IdentityServer4.Quickstart.UI
     public class AccountOptions
     {
         public static bool AllowLocalLogin { get; set; } = true;
+
         public static bool AllowRememberLogin { get; set; } = true;
+
         public static TimeSpan RememberMeLoginDuration { get; set; } = TimeSpan.FromDays(30);
 
         public static bool ShowLogoutPrompt { get; set; } = true;
+
         public static bool AutomaticRedirectAfterSignOut { get; set; } = false;
 
         // specify the Windows authentication scheme being used

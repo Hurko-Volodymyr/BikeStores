@@ -8,51 +8,51 @@ using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore.Storage;
 
 namespace BikeStores.Services.Tests
+{ 
+public class BaseTest
 {
-    [TestClass]
-    public class OrderServiceTest
+    protected DbContextOptions<ApplicationDbContext> _options;
+
+    [TestInitialize]
+    public void BaseSetup()
     {
-        private DbContextOptions<ApplicationDbContext> _options;
-        private readonly IOrderService _orderService;
-        private readonly Mock<IOrderRepository> _orderRepository;
-        private readonly Mock<IMapper> _mapper;
-        private readonly Mock<IDbContextWrapper<ApplicationDbContext>> _dbContextWrapper;
-        private readonly Mock<ILogger<OrderService>> _logger;
-        private readonly Mock<IInternalHttpClientService> _httpClient;
-        private readonly Mock<IOptions<OrderConfig>> _config;
-        public OrderServiceTest()
-        {
-            _orderRepository = new Mock<IOrderRepository>();
-            _mapper = new Mock<IMapper>();
-            _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
-            _logger = new Mock<ILogger<OrderService>>();
-            _httpClient = new Mock<IInternalHttpClientService>();
-            _config = new Mock<IOptions<OrderConfig>>();
+        _options = new DbContextOptionsBuilder<ApplicationDbContext>()
+            .UseInMemoryDatabase(databaseName: "TestDatabase")
+            .Options;
+    }
+}
 
-            _config.Setup(s => s.Value).Returns(new OrderConfig());
+[TestClass]
+public class OrderServiceTest : BaseTest
+{
+    private readonly IOrderService _orderService;
+    private readonly Mock<IOrderRepository> _orderRepository;
+    private readonly Mock<IMapper> _mapper;
+    private readonly Mock<IDbContextWrapper<ApplicationDbContext>> _dbContextWrapper;
+    private readonly Mock<ILogger<OrderService>> _logger;
+    private readonly Mock<IInternalHttpClientService> _httpClient;
+    private readonly Mock<IOptions<OrderConfig>> _config;
 
-            var dbContextTransaction = new Mock<IDbContextTransaction>();
-            _dbContextWrapper.Setup(s => s.BeginTransactionAsync(CancellationToken.None)).ReturnsAsync(dbContextTransaction.Object);
+    public OrderServiceTest()
+    {
+        _orderRepository = new Mock<IOrderRepository>();
+        _mapper = new Mock<IMapper>();
+        _dbContextWrapper = new Mock<IDbContextWrapper<ApplicationDbContext>>();
+        _logger = new Mock<ILogger<OrderService>>();
+        _httpClient = new Mock<IInternalHttpClientService>();
+        _config = new Mock<IOptions<OrderConfig>>();
 
-            _orderService = new OrderService(_dbContextWrapper.Object, _logger.Object, _orderRepository.Object, _logger.Object, _mapper.Object, _httpClient.Object, _config.Object);
-        }
+        _config.Setup(s => s.Value).Returns(new OrderConfig());
 
-        [TestInitialize]
-        public void Setup()
-        {
-            _options = new DbContextOptionsBuilder<ApplicationDbContext>()
-                .UseInMemoryDatabase(databaseName: "TestDatabase")
-                .Options;
+        var dbContextTransaction = new Mock<IDbContextTransaction>();
+        _dbContextWrapper.Setup(s => s.BeginTransactionAsync(CancellationToken.None)).ReturnsAsync(dbContextTransaction.Object);
 
-            _config.Setup(s => s.Value).Returns(new OrderConfig());
-            var loggerBaseDataService = new Mock<ILogger<BaseDataService<ApplicationDbContext>>>();
-            var loggerOrderService = _logger.Object;
-            var httpClient = new Mock<IInternalHttpClientService>();
-
-        }
+        _orderService = new OrderService(_dbContextWrapper.Object, _logger.Object, _orderRepository.Object, _logger.Object, _mapper.Object, _httpClient.Object, _config.Object);
+    }
 
 
-        [TestMethod]
+
+    [TestMethod]
         public async Task CreateOrderAsync_PositiveTest()
         {
             // Arrange
