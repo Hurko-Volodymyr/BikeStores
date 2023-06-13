@@ -1,0 +1,58 @@
+version: '3.8'
+
+services:
+  order.api:
+    container_name: lde.order.api
+    build:
+      context: .
+      dockerfile: Order/Order.Host/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5004
+      - ConnectionString=Server=mssql,1433;Database=BikeStores;User Id=sa;Password=MyStrongPassword123;TrustServerCertificate=true;
+      - Authorization__Authority=http://www.alevelwebsite.com:5002
+      - PathBase=http://www.alevelwebsite.com:5004
+    depends_on:
+      - mssql
+    ports:
+      - 5004:5004
+
+  identityserver:
+    container_name: lde.identityserver
+    build:
+      context: .
+      dockerfile: IdentityServer/IdentityServer/Dockerfile
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=http://+:5002
+      - MvcUrl=http://www.alevelwebsite.com
+      - OrderApi=http://www.alevelwebsite.com:5004
+    ports:
+      - 5002:5002
+
+  mssql:
+    container_name: lde.mssql
+    image: mcr.microsoft.com/mssql/server
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - MSSQL_SA_PASSWORD=MyStrongPassword123
+      - MSSQL_PID=Express
+    volumes:
+      - mssql_data:/var/opt/mssql
+    ports:
+      - 1433:1433
+
+networks:
+  default:
+    driver: bridge
+    internal: false
+    attachable: true
+    ipam:
+      driver: default
+      config:
+        - subnet: 194.168.0.0/24
+          gateway: 194.168.0.1
+
+volumes:
+  mssql_data:
