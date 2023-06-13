@@ -1,5 +1,6 @@
 ﻿using BikeStores.Models.Enums;
 using BikeStores.Models;
+using Catalog.Host.Models.Response.Items;
 
 namespace Order.Host.Services.Abstractions
 {
@@ -7,7 +8,7 @@ namespace Order.Host.Services.Abstractions
     {
         Task<int> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate, DateTime? shippedDate, int storeId, int staffId, List<OrderItem> orderItems);
         Task<OrderEntity?> GetOrderByIdAsync(int orderId);
-        Task<List<OrderEntity>?> GetOrdersAsync(int page, int pageSize);
+        Task<PaginatedItemsResponse<OrderEntity>?> GetOrdersAsync(int pageSize, int pageIndex);
         Task<bool> CancelOrderAsync(int orderId);
     }
 }

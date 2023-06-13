@@ -1,5 +1,8 @@
+using Catalog.Host.Models.Requests.Items;
+using Catalog.Host.Models.Response.Items;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Authorization;
+using Order.Host.Models.Dtos;
 
 namespace Order.Host.Controllers
 {
@@ -22,9 +25,17 @@ namespace Order.Host.Controllers
 
         [HttpPost]
         [ProducesResponseType(typeof(OrderResponse), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> GetOrdersByUserId(string userId)
+        public async Task<IActionResult> GetOrderById(int orderId)
         {
-            var result = await _orderService.GetOrdersByUserIdAsync(userId);
+            var result = await _orderService.GetOrderByIdAsync(orderId);
+            return Ok(result);
+        }
+
+        [HttpPost]
+        [ProducesResponseType(typeof(PaginatedItemsResponse<OrderDto>), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> GetOrders(PaginatedItemsRequest request)
+        {
+            var result = await _orderService.GetOrdersAsync(request.PageSize, request.PageIndex);
             return Ok(result);
         }
 
@@ -38,13 +49,23 @@ namespace Order.Host.Controllers
             }
 
             var result = await _orderService.CreateOrderAsync(
-                request.UserId,
-                request.GameAccountId,
-                request.Name,
-                request.LastName,
-                request.Email);
-
+                request.CustomerId,
+                (BikeStores.Models.Enums.OrderStatusEnum)request.OrderStatus,
+                request.OrderDate,
+                request.RequiredDate,
+                request.ShippedDate,
+                request.StoreId,
+                request.OrderId,
+                request.OrderItems);
             return Ok(result);
+        }
+
+        [HttpPost("{id}")]
+        [ProducesResponseType(typeof(CancelOrderResponse), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> CancelOrder(int id)
+        {
+            var result = await _orderService.CancelOrderAsync(id);
+            return Ok(new CancelOrderResponse() { IsCanceled = result });
         }
     }
 }

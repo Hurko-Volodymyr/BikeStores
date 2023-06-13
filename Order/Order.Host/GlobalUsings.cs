@@ -14,6 +14,5 @@ global using Order.Host.Services;
 global using Order.Host.Services.Abstractions;
 global using Order.Host.Repositories.Abstractions;
 global using Order.Host.Repositories;
-global using Order.Host.Data.Entities;
 global using Order.Host.Models.Requests;
 global using Order.Host.Models.Responses;

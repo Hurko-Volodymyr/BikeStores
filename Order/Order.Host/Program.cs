@@ -1,9 +1,8 @@
+using System.Text.Json.Serialization;
+using Infrastructure.Extensions;
 using Infrastructure.Filters;
 using Microsoft.OpenApi.Models;
-using Infrastructure.Extensions;
 using Order.Host.Configurations;
-using Order.Host.Repositories.Abstractions;
-using Order.Host.Repositories;
 
 namespace Order.Host
 {
@@ -19,7 +18,11 @@ namespace Order.Host
             {
                 options.Filters.Add(typeof(HttpGlobalExceptionFilter));
             })
-              .AddJsonOptions(options => options.JsonSerializerOptions.WriteIndented = true);
+                .AddJsonOptions(options =>
+                {
+                    options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.Preserve;
+                    options.JsonSerializerOptions.WriteIndented = true;
+                });
 
             builder.Services.AddSwaggerGen(options =>
             {

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace BikeStores.Models
 {
@@ -11,6 +10,6 @@ namespace BikeStores.Models
         public int CategoryId { get; set; }
 
         [Column("category_name")]
-        public string CategoryName { get; set; }
+        public string CategoryName { get; set; } = default!;
     }
 }

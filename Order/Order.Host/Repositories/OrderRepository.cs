@@ -1,6 +1,5 @@
 ﻿using BikeStores.Models;
 using BikeStores.Models.Enums;
-using Order.Host.Models;
 
 namespace Order.Host.Repositories
 {
@@ -52,19 +51,22 @@ namespace Order.Host.Repositories
             return order;
         }
 
-        public async Task<List<OrderEntity>?> GetOrdersAsync(int page, int pageSize)
+        public async Task<PaginatedItems<OrderEntity>?> GetOrdersAsync(int pageSize, int pageIndex)
         {
+            IQueryable<OrderEntity> query = _dbContext.Orders;
             var orders = await _dbContext.Orders
                 .Include(i => i.Customer)
                 .Include(i => i.Store)
                 .Include(i => i.Staff)
                 .Include(i => i.OrderItems)
-                    .ThenInclude(ti => ti.Product)
-                .Skip((page - 1) * pageSize)
+                .ThenInclude(ti => ti.Product)
+                .Skip(pageSize * pageIndex)
                 .Take(pageSize)
                 .ToListAsync();
 
-            return orders;
+            var totalItems = await query.LongCountAsync();
+
+            return new PaginatedItems<OrderEntity>() { TotalCount = totalItems, Data = orders };
         }
 
         public async Task<bool> CancelOrderAsync(int orderId)

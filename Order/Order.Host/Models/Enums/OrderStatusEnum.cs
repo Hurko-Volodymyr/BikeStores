@@ -7,5 +7,4 @@
         Rejected = 3,
         Completed = 4
     }
-
 }

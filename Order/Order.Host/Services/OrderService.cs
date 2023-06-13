@@ -1,8 +1,9 @@
 ﻿using BikeStores.Models;
 using BikeStores.Models.Enums;
+using Catalog.Host.Models.Response.Items;
 using Microsoft.Extensions.Options;
 using Order.Host.Configurations;
-using Order.Host.Models;
+using Order.Host.Models.Dtos;
 
 namespace Order.Host.Services
 {
@@ -48,24 +49,32 @@ namespace Order.Host.Services
 
             if (order! == null)
             {
-                _loggerService.LogWarning($"Not founded orders");
+                _loggerService.LogWarning($"Not founded order");
                 return null!;
             }
 
             return order;
         }
 
-        public async Task<List<OrderEntity>?> GetOrdersAsync(int page, int pageSize)
+        public async Task<PaginatedItemsResponse<OrderEntity>?> GetOrdersAsync(int pageSize, int pageIndex)
         {
-            var orders = await _orderRepository.GetOrdersAsync(page, pageSize);
-
-            if (orders!.Count() == 0)
+            return await ExecuteSafeAsync(async () =>
             {
-                _loggerService.LogWarning($"Not founded orders");
-                return null!;
-            }
+                var result = await _orderRepository.GetOrdersAsync(pageIndex, pageSize);
+                if (result == null)
+                {
+                    _loggerService.LogWarning($"Orders not found");
+                    return null;
+                }
 
-            return orders;
+                return new PaginatedItemsResponse<OrderEntity>()
+                {
+                    Count = result.TotalCount,
+                    Data = result.Data.Select(s => _mapper.Map<OrderEntity>(s)).ToList(),
+                    PageIndex = pageIndex,
+                    PageSize = pageSize
+                };
+            });
         }
 
         public async Task<bool> CancelOrderAsync(int orderId)

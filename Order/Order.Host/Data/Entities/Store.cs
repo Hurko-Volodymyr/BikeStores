@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStores.Models
 {
@@ -13,7 +12,7 @@ namespace BikeStores.Models
         [Required]
         [Column("store_name")]
         [StringLength(255)]
-        public string StoreName { get; set; }
+        public string StoreName { get; set; } = default!;
 
         [Column("phone")]
         [StringLength(25)]

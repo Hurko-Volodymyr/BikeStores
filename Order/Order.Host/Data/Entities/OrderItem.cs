@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStores.Models
 {
@@ -31,8 +30,8 @@ namespace BikeStores.Models
         public decimal Discount { get; set; }
 
         [ForeignKey("OrderId")]
-        public OrderEntity Order { get; set; }
+        public OrderEntity Order { get; set; } = default!;
 
-        public Product Product { get; set; }
+        public Product Product { get; set; } = default!;
     }
 }

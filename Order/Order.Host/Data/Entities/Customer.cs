@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.ComponentModel.DataAnnotations;
 
 namespace BikeStores.Models
 {
@@ -12,29 +11,29 @@ namespace BikeStores.Models
 
         [Required]
         [Column("first_name")]
-        public string FirstName { get; set; }
+        public string FirstName { get; set; } = null!;
 
         [Required]
         [Column("last_name")]
-        public string LastName { get; set; }
+        public string LastName { get; set; } = null!;
 
         [Column("phone")]
         public string? Phone { get; set; }
 
         [Required]
         [Column("email")]
-        public string Email { get; set; }
+        public string Email { get; set; } = null!;
 
         [Column("street")]
-        public string Street { get; set; }
+        public string Street { get; set; } = null!;
 
         [Column("city")]
-        public string City { get; set; }
+        public string City { get; set; } = null!;
 
         [Column("state")]
-        public string State { get; set; }
+        public string State { get; set; } = null!;
 
         [Column("zip_code")]
-        public string ZipCode { get; set; }
+        public string ZipCode { get; set; } = null!;
     }
 }

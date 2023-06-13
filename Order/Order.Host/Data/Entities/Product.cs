@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStores.Models
 {
@@ -12,7 +11,7 @@ namespace BikeStores.Models
 
         [Required]
         [Column("product_name")]
-        public string ProductName { get; set; }
+        public string ProductName { get; set; } = default!;
 
         [Required]
         [Column("brand_id")]
@@ -33,7 +32,6 @@ namespace BikeStores.Models
         public decimal ListPrice { get; set; }
 
         // public Brand Brand { get; set; }
-
-        public Category Category { get; set; }
+        public Category Category { get; set; } = default!;
     }
 }

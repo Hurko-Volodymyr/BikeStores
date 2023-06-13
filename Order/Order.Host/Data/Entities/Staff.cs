@@ -1,5 +1,4 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
 namespace BikeStores.Models
 {
@@ -43,9 +42,9 @@ namespace BikeStores.Models
         public int? ManagerId { get; set; }
 
         [ForeignKey("StoreId")]
-        public Store Store { get; set; }
+        public Store Store { get; set; } = default!;
 
         [ForeignKey("ManagerId")]
-        public Staff Manager { get; set; }
+        public Staff Manager { get; set; } = default!;
     }
 }
