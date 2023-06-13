@@ -1,20 +1,28 @@
 ﻿using BikeStores.Models;
+using BikeStores.Models.Enums;
 
 namespace Order.Host.Models.Requests
 {
     public class CreateOrderRequest
     {
-        public int OrderId { get; set; }
+        [Required]
         public int CustomerId { get; set; }
-        public Customer Customer { get; internal set; } = null!;
+
+        [Required]
         public byte OrderStatus { get; set; }
+
+        [Required]
         public DateTime OrderDate { get; set; }
+
+        [Required]
         public DateTime RequiredDate { get; set; }
+
         public DateTime? ShippedDate { get; set; }
+
+        [Required]
         public int StoreId { get; set; }
-        public Store Store { get; internal set; } = null!;
+
+        [Required]
         public int StaffId { get; set; }
-        public Staff Staff { get; internal set; } = null!;
-        public List<OrderItem> OrderItems { get; set; } = null!;
     }
 }

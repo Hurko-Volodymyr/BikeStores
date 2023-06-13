@@ -32,28 +32,34 @@ namespace Order.Host.Services
             _config = config.Value;
         }
 
-        public async Task<int> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate, DateTime? shippedDate, int storeId, int staffId, List<OrderItem> orderItems)
+        public async Task<int?> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate, DateTime? shippedDate, int storeId, int staffId)
         {
-            var orderId = await _orderRepository.CreateOrderAsync(customerId, orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId, orderItems);
-            if (orderId! == default)
+            return await ExecuteSafeAsync(async () =>
+            {
+                var orderId = await _orderRepository.CreateOrderAsync(customerId, orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId);
+                if (orderId! == default)
             {
                 _loggerService.LogWarning($"Can`t adding order");
             }
 
-            return orderId;
+                return orderId;
+            });
         }
 
         public async Task<OrderEntity?> GetOrderByIdAsync(int orderId)
         {
-            var order = await _orderRepository.GetOrderByIdAsync(orderId);
+            return await ExecuteSafeAsync(async () =>
+            {
+                var order = await _orderRepository.GetOrderByIdAsync(orderId);
 
-            if (order! == null)
+                if (order! == null)
             {
                 _loggerService.LogWarning($"Not founded order");
                 return null!;
             }
 
-            return order;
+                return order;
+            });
         }
 
         public async Task<PaginatedItemsResponse<OrderEntity>?> GetOrdersAsync(int pageSize, int pageIndex)
@@ -79,14 +85,17 @@ namespace Order.Host.Services
 
         public async Task<bool> CancelOrderAsync(int orderId)
         {
-            var isCanceled = await _orderRepository.CancelOrderAsync(orderId);
+                return await ExecuteSafeAsync(async () =>
+                {
+                    var isCanceled = await _orderRepository.CancelOrderAsync(orderId);
 
-            if (isCanceled == false)
+                    if (isCanceled == false)
             {
                 _loggerService.LogWarning($"Not founded order to cancel");
             }
 
-            return isCanceled;
+                    return isCanceled;
+                });
         }
     }
 }

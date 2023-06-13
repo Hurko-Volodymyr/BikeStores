@@ -27,7 +27,7 @@ namespace IdentityServer4.Quickstart.UI
             },
             new TestUser
             {
-                SubjectId = "88421113", Username = "bob", Password = "bob",
+                SubjectId = "88", Username = "bob", Password = "bob",
                 Claims =
                 {
                     new Claim(JwtClaimTypes.Name, "Bob Smith"),

@@ -13,7 +13,7 @@ namespace Order.Host.Repositories
             _dbContext = dbContextWrapper.DbContext;
         }
 
-        public async Task<int> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate, DateTime? shippedDate, int storeId, int staffId, List<OrderItem> orderItems)
+        public async Task<int?> CreateOrderAsync(int customerId, OrderStatusEnum orderStatus, DateTime orderDate, DateTime requiredDate, DateTime? shippedDate, int storeId, int staffId)
         {
             if (!Enum.IsDefined(typeof(OrderStatusEnum), orderStatus))
             {
@@ -29,13 +29,12 @@ namespace Order.Host.Repositories
                 ShippedDate = shippedDate,
                 StoreId = storeId,
                 StaffId = staffId,
-                OrderItems = orderItems
             };
 
-            _dbContext.Orders.Add(order);
+            var newItem = await _dbContext.Orders.AddAsync(order);
             await _dbContext.SaveChangesAsync();
 
-            return order.OrderId;
+            return newItem.Entity.OrderId;
         }
 
         public async Task<OrderEntity?> GetOrderByIdAsync(int orderId)

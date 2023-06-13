@@ -70,7 +70,7 @@ namespace BikeStores.Services.Tests
 
             // Act
             var orderId = await orderService.CreateOrderAsync(
-                customerId, orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId, orderItems);
+                customerId, orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId);
 
             // Assert
             Assert.IsTrue(orderId > 0, "Order ID should be greater than 0.");
@@ -96,7 +96,7 @@ namespace BikeStores.Services.Tests
             await Assert.ThrowsExceptionAsync<ArgumentException>(async () =>
             {
                 await orderService.CreateOrderAsync(
-                    customerId, (OrderStatusEnum)orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId, orderItems);
+                    customerId, (OrderStatusEnum)orderStatus, orderDate, requiredDate, shippedDate, storeId, staffId);
             });
         }
 
@@ -177,11 +177,11 @@ namespace BikeStores.Services.Tests
             };
 
             var orderId = await orderService.CreateOrderAsync(
-                customer.CustomerId, orderStatus, orderDate, requiredDate, shippedDate, store.StoreId, staff.StaffId, orderItems);
+                customer.CustomerId, orderStatus, orderDate, requiredDate, shippedDate, store.StoreId, staff.StaffId);
             await dbContext.SaveChangesAsync();
 
             // Act
-            var result = await orderService.GetOrderByIdAsync(orderId);
+            var result = await orderService.GetOrderByIdAsync(orderId.GetValueOrDefault());
 
             // Assert
             Assert.IsNotNull(result);
@@ -289,7 +289,7 @@ namespace BikeStores.Services.Tests
             var pageSize = 10;
 
             var orderId = await orderService.CreateOrderAsync(
-                customer.CustomerId, orderStatus, orderDate, requiredDate, shippedDate, store.StoreId, staff.StaffId, orderItems);
+                customer.CustomerId, orderStatus, orderDate, requiredDate, shippedDate, store.StoreId, staff.StaffId);
             await dbContext.SaveChangesAsync();
 
             // Act
